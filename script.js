@@ -4,9 +4,13 @@ const url = "https://newsapi.org/v2/everything?q=";
 window.addEventListener("load", () => fetchNews("Technology"));
 
 async function fetchNews(query) {
-    const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
-    const data = await res.json();
-    bindData(data.articles);
+    try {
+        const response = await axios.get(`${url}${query}&apiKey=${API_KEY}`);
+        const data = response.data;
+        bindData(data.articles);
+    } catch (error) {
+        console.error("Error fetching news:", error);
+    }
 }
 
 function bindData(articles) {
